@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Switch Financial Tool</title>
+    <style>
+        #owner-switch-tool {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #owner-switch-tool input, #owner-switch-tool select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        #owner-switch-tool button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        #owner-switch-tool button:hover {
+            background-color: #45a049;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div id="owner-switch-tool">
+        <h2>Owner Switch Financial Tool</h2>
+        
+        <div id="expense-input">
+            <h3>Monthly Expenses</h3>
+            <select id="expense-category">
+                <option value="rent">Rent/Mortgage</option>
+                <option value="utilities">Utilities</option>
+                <option value="food">Food</option>
+                <option value="transportation">Transportation</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+            <input type="number" id="expense-amount" placeholder="Amount">
+            <button onclick="addExpense()">Add Expense</button>
+        </div>
+
+        <div id="asset-input">
+            <h3>Disposable Assets</h3>
+            <input type="text" id="asset-name" placeholder="Asset Name">
+            <input type="number" id="asset-value" placeholder="Estimated Value">
+            <button onclick="addAsset()">Add Asset</button>
+        </div>
+
+        <div id="results">
+            <h3>Results</h3>
+            <p>Total Monthly Expenses: $<span id="total-expenses">0</span></p>
+            <p>Total Asset Value: $<span id="total-assets">0</span></p>
+            <p>Potential Monthly Savings: $<span id="potential-savings">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let expenses = [];
+        let assets = [];
+
+        function addExpense() {
+            let category = document.getElementById('expense-category').value;
+            let amount = parseFloat(document.getElementById('expense-amount').value);
+            if (amount) {
+                expenses.push({category, amount});
+                updateResults();
+            }
+        }
+
+        function addAsset() {
+            let name = document.getElementById('asset-name').value;
+            let value = parseFloat(document.getElementById('asset-value').value);
+            if (name && value) {
+                assets.push({name, value});
+                updateResults();
+            }
+        }
+
+        function updateResults() {
+            let totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            let totalAssets = assets.reduce((sum, asset) => sum + asset.value, 0);
+            let potentialSavings = totalExpenses * 0.2; // Assuming 20% of expenses could be saved
+
+            document.getElementById('total-expenses').textContent = totalExpenses.toFixed(2);
+            document.getElementById('total-assets').textContent = totalAssets.toFixed(2);
+            document.getElementById('potential-savings').textContent = potentialSavings.toFixed(2);
+        }
+    </script>
+</body>
+</html>
